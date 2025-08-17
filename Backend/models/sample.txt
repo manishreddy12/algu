@@ -1,0 +1,25 @@
+sample create problem:
+
+{
+  "pname": "Difference of Two Numbers",
+  "pcode": "1TSUM01",
+  "pstatement": "Given two integers, return their Difference.",
+  "pdifficulty": "easy",
+  "examples": [
+    {
+      "input": "3 4",
+      "expectedOutput": "-1",
+      "isSample": true
+    },
+    {
+      "input": "10 15",
+      "expectedOutput": "-5",
+      "isSample": false
+    },
+    {
+      "input": "-5 8",
+      "expectedOutput": "-13",
+      "isSample": false
+    }
+  ]
+}
