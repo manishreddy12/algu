@@ -30,14 +30,42 @@ const handleUserLogin = async (req,res)=>{
             process.env.SECRET_KEY,
             { expiresIn: '1h' }
             );
-
-        res.status(200).json({ token });
+        const role_send = user.authorisation;
+        console.log(role_send);
+        res.status(200).json({ token:token,role:role_send });
         
     } catch (error) {
         console.error(error);
         res.status(500).send("Server error");
     }
 }
+
+const changeRole = async (req, res) => {
+  try {
+    const { username, newrole } = req.body;
+
+    if (!username || !newrole) {
+      return res.status(400).json({ message: "All fields required" });
+    }
+
+    const user = await User.findOne({ username });
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    user.authorisation = newrole;
+
+    await user.save(); // Save the updated user document
+
+    return res.status(200).json({ message: "User role updated successfully" });
+  } 
+  catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error", error: err.message });
+  }
+};
+
 
 // app.post("/signup", async (req, res) => {
 const createNewUser = async (req,res) => {
@@ -97,5 +125,5 @@ const createNewUser = async (req,res) => {
 
 module.exports = {
     handleUserLogin,
-    createNewUser
+    createNewUser,changeRole,
 };

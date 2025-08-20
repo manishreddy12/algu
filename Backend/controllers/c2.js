@@ -6,6 +6,7 @@ const Testcases = require('../models/Testcases');
 const Solutions = require('../models/Solutions');
 
 const createProblem = async (req, res) => {
+    console.log("create Problem recieved ");
     const { pname, pcode, pstatement, pdifficulty, examples } = req.body;
     if (!(pname && pcode && pstatement && pdifficulty)) {
         return res.status(404).send("All fields are required")
@@ -53,9 +54,9 @@ const createProblem = async (req, res) => {
 }
 
 const readProblem = async (req, res) => {
+    console.log("readProblem request recieved")
     const { pcode } = req.params;
     const problem = await Problems.findOne({ pcode });
-    console.log("readProblem request recieved")
     if (!problem) {
         res.status(404).send()
     }
@@ -82,6 +83,7 @@ const readProblem = async (req, res) => {
 
 
 const deleteProblem = async(req,res)=> {
+        console.log("Delete all solutions clicked ");
     const {pcode} = req.body;
     try{
         const problem = await Problems.findOne({pcode});
@@ -104,9 +106,11 @@ const deleteProblem = async(req,res)=> {
 }
 
 const deleteAllSolutions = async(req,res)=>{
+    console.log("Delete all solutions clicked ");
+    const dat = req.body;
     try{
         const result = await Solutions.deleteMany({});
-        if(res){
+        if(result){
             res.json("All solutions deleted successfully")
         }
     }

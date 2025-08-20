@@ -1,6 +1,13 @@
 import { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
+import CodeMirror from '@uiw/react-codemirror';
+
+import { javascript } from '@codemirror/lang-javascript';
+import { cpp } from '@codemirror/lang-cpp';
+import { python } from '@codemirror/lang-python';
+
+
 
 const OjLayout = () => {
   const { pcode } = useParams(); // ✅ Get pcode from URL
@@ -14,6 +21,19 @@ const OjLayout = () => {
   const [output, setOutput] = useState('');
   const [aiReview, setAireview] = useState('');
   const [language, setLanguage] = useState('cpp');
+
+  const getLanguageExtension = (language) => {
+    switch (language) {
+      case 'cpp':
+        return cpp();
+      case 'py':
+        return python();
+      case 'js':
+      default:
+        return javascript();
+    }
+  };
+
   useEffect(() => {
     const loadProblem = async () => {
       try {
@@ -68,7 +88,7 @@ const OjLayout = () => {
 
     // setOutput("Running test cases...\n\nTest case 1: Passed\nInput: [2,7,11,15], 9\nOutput: [0,1]\nExpected: [0,1]");
     try {
-      const responseRun = await axios.post("http://localhost:4000/submit", {
+      const responseRun = await axios.post("http://localhost:4002/submit", {
         language: language,
         code: code,
         pcode: pcode
@@ -91,7 +111,7 @@ const OjLayout = () => {
 
     // setOutput("Running test cases...\n\nTest case 1: Passed\nInput: [2,7,11,15], 9\nOutput: [0,1]\nExpected: [0,1]");
     try {
-      const responseRun = await axios.post("http://localhost:4000/run", {
+      const responseRun = await axios.post("http://localhost:4002/run", {
         language: language,
         code: code,
         input: inp
@@ -113,7 +133,7 @@ const OjLayout = () => {
 
   const handleReview = async () => {
     try {
-      const responseRun = await axios.post("http://localhost:4000/ai-review", {
+      const responseRun = await axios.post("http://localhost:4002/ai-review", {
         code: code
       },);
       // console.log("Requested AI review" + code);
@@ -186,11 +206,21 @@ const OjLayout = () => {
           {activeTab === 'code' ? (
             <div className="h-full flex flex-col">
               <div className="p-2 border-b border-gray-200 bg-gray-50">
-                <select value={language} onChange={(e) => { setLanguage(e.target.value) }} className="border border-gray-300 rounded px-2 py-1 text-sm">
+                {/* <select value={language} onChange={(e) => { setLanguage(e.target.value); }} className="border border-gray-300 rounded px-2 py-1 text-sm">
                   <option value="cpp">C++</option>
                   <option value="py">Python</option>
-                  <option value="js">C</option>
+                  <option value="js">js</option>
+                </select> */}
+                <select
+                  value={language}
+                  onChange={(e) => setLanguage(e.target.value)}
+                  className="border border-gray-300 rounded px-2 py-1 text-sm"
+                >
+                  <option value="cpp">C++</option>
+                  <option value="py">Python</option>
+                  <option value="js">JavaScript</option>
                 </select>
+
                 <button
                   onClick={handleSubmit}
                   className="ml-2 px-4 py-1 bg-blue-500 text-white text-sm rounded"
@@ -204,12 +234,29 @@ const OjLayout = () => {
                   Run
                 </button>
               </div>
-              <textarea
+              {/* <textarea
                 value={code}
                 onChange={(e) => setCode(e.target.value)}
                 className="flex-1 w-full p-4 font-mono text-sm outline-none resize-none"
                 placeholder="Enter your code here..."
+              /> */}
+
+              <CodeMirror
+                value={code}
+                height="100%"
+                extensions={[getLanguageExtension(language)]}
+                onChange={setCode}
+                placeholder={`Write your ${language.toUpperCase()} code here...`}
               />
+
+              {/* <CodeMirror
+                value={code}
+                height="300px"
+                extensions={[languageExtension]}
+                onChange={setCode}
+                placeholder={`Write your ${language.toUpperCase()} code here...`}
+              /> */}
+
             </div>
           ) : (
             // <div className="h-full p-4 overflow-auto bg-gray-50 font-mono text-sm whitespace-pre">
@@ -226,25 +273,26 @@ const OjLayout = () => {
             // </div>
             <div className="h-full p-4 overflow-auto bg-gray-50 font-mono text-sm space-y-4">
               <h3 className="text-base font-semibold text-gray-700">Code Execution</h3>
-
-              <div><button
-                onClick={handleRun}
-                className="ml-2 px-4 py-1 bg-blue-500 text-white text-sm rounded"
-              >
-                Run
-              </button></div>
-              <button
-                onClick={handleSubmit}
-                className="ml-2 px-4 py-1 bg-blue-500 text-white text-sm rounded"
-              >
-                Submit
-              </button>
-              <div><button
-                onClick={handleReview}
-                className="ml-2 px-4 py-1 bg-blue-500 text-white text-sm rounded"
-              >
-                AI Review
-              </button></div>
+              <div className="flex space-x-2">
+                <div><button
+                  onClick={handleRun}
+                  className="ml-2 px-4 py-1 bg-blue-500 text-white text-sm rounded"
+                >
+                  Run
+                </button></div>
+                <button
+                  onClick={handleSubmit}
+                  className="ml-2 px-4 py-1 bg-blue-500 text-white text-sm rounded"
+                >
+                  Submit
+                </button>
+                <div><button
+                  onClick={handleReview}
+                  className="ml-2 px-4 py-1 bg-blue-500 text-white text-sm rounded"
+                >
+                  AI Review
+                </button></div>
+              </div>
               {/* Input Section */}
               <div className="space-y-2">
                 <label htmlFor="inputArea" className="text-gray-600 font-medium">Input</label>

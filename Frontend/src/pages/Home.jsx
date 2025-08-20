@@ -5,11 +5,13 @@ import Footer from './Footer';
 
 const Home = () => {
   return (
-    <>
-        <Header></Header>
-        <ProblemsTable></ProblemsTable>
-        <Footer></Footer>
-    </>
+    <div className="flex flex-col min-h-screen">
+      <Header />
+      <main className="flex-grow">
+        <ProblemsTable />
+      </main>
+      <Footer />
+    </div>
   )
 }
 

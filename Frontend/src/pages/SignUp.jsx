@@ -79,7 +79,7 @@ const SignUp = () => {
                       onChange={handleChange}
                       type="text"
                       required
-                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      className="block w-full rounded-md border-0 px-1.5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     />
                   </div>
                 </div>
@@ -94,7 +94,7 @@ const SignUp = () => {
                       type="text"
                       onChange={handleChange}
                       required
-                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      className="block w-full rounded-md border-0 px-1.5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     />
                   </div>
                 </div>
@@ -111,7 +111,7 @@ const SignUp = () => {
                     type="text"
                     onChange={handleChange}
                     required
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    className="block w-full rounded-md border-0 px-1.5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
                 </div>
               </div>
@@ -128,7 +128,7 @@ const SignUp = () => {
                     autoComplete="email"
                     onChange={handleChange}
                     required
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    className="block w-full rounded-md border-0 px-1.5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
                 </div>
               </div>
@@ -145,7 +145,7 @@ const SignUp = () => {
                     autoComplete="new-password"
                     onChange={handleChange}
                     required
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    className="block w-full rounded-md border-0 px-1.5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
                 </div>
               </div>
@@ -178,25 +178,31 @@ const SignUp = () => {
                 Sign in
               </a>
             </p> */}
-            <p>
-              {/* Already user? <Link to="/login">Login to your account</Link> */}
-              Already user?
-              <p className="font-semibold text-indigo-600 hover:text-indigo-500">
-                <Link to={'/login'}>
-                  Log in
-                </Link>
-              </p>
+            <div className="py-1.5 text-sm">
+              <span>Already user? </span>
+              <Link
+                to="/login"
+                className="font-semibold text-indigo-600 hover:text-indigo-500"
+              >
+                Log in
+              </Link>
               <div className="mt-10 text-center text-sm text-gray-500">
-                {err && <p style={{ color: 'red' }}>{err}</p>}
-                {success && <p style={{ color: 'red' }}>{success}</p>}
+                {err && <p className="text-red-600">{err}</p>}
+                {success && <p className="text-green-600">{success}</p>}
               </div>
+
               {gotoHome && (
-                <div>
-                  <Link to="/home">Go Home</Link>
+                <div className="mt-2">
+                  <Link
+                    to="/home"
+                    className="text-indigo-600 hover:text-indigo-500 font-medium"
+                  >
+                    Go Home
+                  </Link>
                 </div>
               )}
+            </div>
 
-            </p>
           </div>
         </div>
       </div>

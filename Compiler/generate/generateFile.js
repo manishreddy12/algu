@@ -1,9 +1,9 @@
 const fs = require('fs');
-const {generateInputFIle} = require('./generateInputFile');
+const {generateInputFIle} = require('../generate/generateInputFile');
 const path = require('path');
 const { v4 : uuid } = require('uuid');
-const{executecpp} = require('./execteCpp');
-const{executePy} = require('./executePy');
+const{executecpp} = require('../exec/execteCpp');
+const{executePy} = require('../exec/executePy');
 const dirCodes = path.join(__dirname, "codes");
 
 if(!fs.existsSync(dirCodes)){
