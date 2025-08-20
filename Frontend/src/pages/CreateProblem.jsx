@@ -74,7 +74,7 @@ const CreateProblem = () => {
         try {
             const token = localStorage.getItem('token');
             const responseRun = await axios.post(
-                "http://localhost:4000/createProblem",
+                `${import.meta.env.VITE_BACKEND_URL}/createProblem`,
                 { pname, pcode, pstatement, pdifficulty, examples },
                 {
                     headers: { 'Authorization': `Bearer ${token}` }

@@ -12,7 +12,7 @@ export const Changeroles = () => {
         try {
             const token = localStorage.getItem('token');
             const responseRun = await axios.post(
-                "http://localhost:4000/changeroles",
+                `${import.meta.env.VITE_BACKEND_URL}/changeroles`,
                 { username,newrole },
                 {
                     headers: { 'Authorization': `Bearer ${token}` }

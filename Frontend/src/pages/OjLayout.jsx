@@ -39,7 +39,7 @@ const OjLayout = () => {
       try {
         // const response = await axios.get(`http://localhost:4000/readProblem/${pcode}`);
         const token = localStorage.getItem('token');
-        const response = await axios.get(`http://localhost:4000/readProblem/${pcode}`, {
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/readProblem/${pcode}`, {
           headers: {
             'Authorization': `Bearer ${token}`,
           },
@@ -88,7 +88,7 @@ const OjLayout = () => {
 
     // setOutput("Running test cases...\n\nTest case 1: Passed\nInput: [2,7,11,15], 9\nOutput: [0,1]\nExpected: [0,1]");
     try {
-      const responseRun = await axios.post("http://localhost:4002/submit", {
+      const responseRun = await axios.post(`${import.meta.env.VITE_COMPILER_URL}/submit`, {
         language: language,
         code: code,
         pcode: pcode
@@ -111,7 +111,7 @@ const OjLayout = () => {
 
     // setOutput("Running test cases...\n\nTest case 1: Passed\nInput: [2,7,11,15], 9\nOutput: [0,1]\nExpected: [0,1]");
     try {
-      const responseRun = await axios.post("http://localhost:4002/run", {
+      const responseRun = await axios.post(`${import.meta.env.VITE_COMPILER_URL}/run`, {
         language: language,
         code: code,
         input: inp
@@ -133,7 +133,7 @@ const OjLayout = () => {
 
   const handleReview = async () => {
     try {
-      const responseRun = await axios.post("http://localhost:4002/ai-review", {
+      const responseRun = await axios.post(`${import.meta.env.VITE_COMPILER_URL}/ai-review`, {
         code: code
       },);
       // console.log("Requested AI review" + code);

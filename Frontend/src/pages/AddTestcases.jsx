@@ -36,7 +36,7 @@ const AddTestcases = () => {
     try {
       const token = localStorage.getItem('token');
       const responseRun = await axios.post(
-        "http://localhost:4000/addtestcases",
+        `${import.meta.env.VITE_BACKEND_URL}/addtestcases`,
         {
           pcode: pcode,
           allTestcases: examples

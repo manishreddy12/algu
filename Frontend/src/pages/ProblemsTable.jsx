@@ -22,7 +22,7 @@ const ProblemsTable = () => {
   useEffect(() => {
     const handleProblems = async () => {
       try {
-        const response = await axios.get('http://localhost:4000/problems');
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/problems`);
         console.log("Fetched data is " + response.data);
         setProblems(response.data);
       }

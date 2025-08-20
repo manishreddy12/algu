@@ -30,7 +30,7 @@ const Login2 = () => {
             console.log("Sending formData:", formData);
             // respone = await axios.post('http://localhost:4000/login', formData);
             const response = await axios.post(
-                'http://localhost:4000/login',
+                `${import.meta.env.VITE_BACKEND_URL}/login`,
                 {
                     username: formData.username,
                     password: formData.password
@@ -54,7 +54,7 @@ const Login2 = () => {
             setgotoHome(true);
         }
         catch (err) {
-            setError(err.response.data.message || err.response.data || "Something went wring");
+            setError(err.response.data.message || err.response.data || "Something went wrong");
             setSuccess('');
         }
     }

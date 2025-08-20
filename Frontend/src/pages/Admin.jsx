@@ -12,7 +12,7 @@ export const Admin = () => {
     const handleDeleteAllSolutions = async () => {
         try {
             const token = localStorage.getItem('token');
-            const res = await axios.post("http://localhost:4000/deleteSolutions",{
+            const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}deleteSolutions`,{
                     pcode: pcode
                 },
                 {
@@ -39,7 +39,7 @@ export const Admin = () => {
         }
         try {
             const token = localStorage.getItem('token');
-            const res = await axios.post(`http://localhost:4000/deleteproblem`, {
+            const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/deleteproblem`, {
                     pcode: pcode
                 },
                 {

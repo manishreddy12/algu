@@ -20,7 +20,7 @@ const SignUp = () => {
       console.log("Sending formData:", formData);
       // respone = await axios.post('http://localhost:4000/login', formData);
       const response = await axios.post(
-        'http://localhost:4000/signup',
+        `${import.meta.env.VITE_BACKEND_URL}/signup`,
         {
           firstname: formData.firstname,
           lastname: formData.lastname,
