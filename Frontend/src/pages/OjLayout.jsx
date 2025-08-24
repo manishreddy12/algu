@@ -21,6 +21,8 @@ const OjLayout = () => {
   const [output, setOutput] = useState('');
   const [aiReview, setAireview] = useState('');
   const [language, setLanguage] = useState('cpp');
+  const [dateTime, setDateTime] = useState('');
+  const [statusRes, setStatusres] = useState('false');
 
   const getLanguageExtension = (language) => {
     switch (language) {
@@ -98,15 +100,48 @@ const OjLayout = () => {
             'Content-Type': 'application/json' // VERY important
           }
         });
-      console.log("Requested to run code" + code + language);
+      // console.log("Requested to run code" + code + language);
       setOutput(responseRun.data);
-      console.log("response is " + responseRun.data.success + responseRun.data.output);
+      // console.log("response is " + responseRun.data.success + responseRun.data.output);
       setOutput(responseRun.data.output);
+      updateStatus();
     }
     catch (err) {
       console.log("Error" + err);
     }
   };
+
+ useEffect(() => {
+    const now = new Date();
+    const timeStr = now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+    const dateStr = now.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+    setDateTime(`${timeStr}, ${dateStr}`);
+  }, [output]);
+  // const customTimeFormat = () => {
+
+  //   // return <div>{dateTime}</div>;
+  // };
+
+
+  const updateStatus = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const new_res = statusRes;
+      console.log("update statis : "+dateTime+new_res);
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/updatestatus`, {
+        "usertoken": token,
+        "pcode": pcode,
+        "subTime": dateTime,
+        "subResult": new_res
+      });
+    }
+    catch(err){
+      console.log("error while updating status"+err);
+    }
+  };
+
+
+
   const handleRun = async () => {
 
     // setOutput("Running test cases...\n\nTest case 1: Passed\nInput: [2,7,11,15], 9\nOutput: [0,1]\nExpected: [0,1]");
@@ -121,9 +156,9 @@ const OjLayout = () => {
             'Content-Type': 'application/json' // VERY important
           }
         });
-      console.log("Requested to run code" + code + language + inp);
+      // console.log("Requested to run code" + code + language + inp);
       setOutput(responseRun.data);
-      console.log("response is " + responseRun.data.success + responseRun.data.output);
+      // console.log("response is " + responseRun.data.success + responseRun.data.output);
       setOutput(responseRun.data.output);
     }
     catch (err) {
@@ -206,11 +241,6 @@ const OjLayout = () => {
           {activeTab === 'code' ? (
             <div className="h-full flex flex-col">
               <div className="p-2 border-b border-gray-200 bg-gray-50">
-                {/* <select value={language} onChange={(e) => { setLanguage(e.target.value); }} className="border border-gray-300 rounded px-2 py-1 text-sm">
-                  <option value="cpp">C++</option>
-                  <option value="py">Python</option>
-                  <option value="js">js</option>
-                </select> */}
                 <select
                   value={language}
                   onChange={(e) => setLanguage(e.target.value)}
@@ -234,28 +264,17 @@ const OjLayout = () => {
                   Run
                 </button>
               </div>
-              {/* <textarea
-                value={code}
-                onChange={(e) => setCode(e.target.value)}
-                className="flex-1 w-full p-4 font-mono text-sm outline-none resize-none"
-                placeholder="Enter your code here..."
-              /> */}
 
-              <CodeMirror
-                value={code}
-                height="100%"
-                extensions={[getLanguageExtension(language)]}
-                onChange={setCode}
-                placeholder={`Write your ${language.toUpperCase()} code here...`}
-              />
-
-              {/* <CodeMirror
-                value={code}
-                height="300px"
-                extensions={[languageExtension]}
-                onChange={setCode}
-                placeholder={`Write your ${language.toUpperCase()} code here...`}
-              /> */}
+              
+              <div className="flex-1 overflow-auto rounded-md border min-h-0">
+                <CodeMirror
+                  value={code}
+                  height="100%" // Set CodeMirror's height to fill the container
+                  extensions={[getLanguageExtension(language)]}
+                  onChange={setCode}
+                  placeholder={`Write your ${language.toUpperCase()} code here...`}
+                />
+              </div>
 
             </div>
           ) : (

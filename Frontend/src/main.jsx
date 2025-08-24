@@ -10,6 +10,7 @@ import './index.css'
 import App from './App.jsx'
 import CreateProblem from './pages/CreateProblem.jsx';
 import { Admin } from './pages/Admin.jsx';
+import SubmissionTable from './pages/SubmissionTable.jsx';
 
 
 createRoot(document.getElementById('root')).render(
@@ -25,6 +26,7 @@ createRoot(document.getElementById('root')).render(
       <Route path='/createproblem' element={<CreateProblem/>}></Route>
       <Route path='/admin' element={<Admin/>}></Route>
       <Route path='/problem/:pcode' element={<ProblemPage/>}></Route>
+      <Route path='/submissions' element={<SubmissionTable></SubmissionTable>}></Route>
     </Routes>
   </BrowserRouter>
 )

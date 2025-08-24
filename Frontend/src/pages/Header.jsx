@@ -31,12 +31,12 @@ const Header = () => {
           >
             Admin
           </Link>
-          <a
-            href="#team"
+          <Link
+            to="/submissions"
             className="text-white hover:text-slate-300 transition"
           >
-            Team
-          </a>
+            Submissions
+          </Link>
           <a
             href="#contact"
             className="text-white hover:text-slate-300 transition"

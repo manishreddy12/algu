@@ -15,7 +15,7 @@ app.use(express.urlencoded({extended: true}));
 
 
 app.get("/", (req, res) => {
-        res.send("Welcome to /");
+        res.send("Welcome to Codeview backend");
     });
 
 app.use("/",userRoute);

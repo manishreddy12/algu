@@ -123,7 +123,64 @@ const createNewUser = async (req,res) => {
     }
 };
 
+
+const updateStatus = async (req, res) => {
+    const { usertoken, pcode, subTime, subResult } = req.body;
+    try {
+        const decode = jwt.verify(usertoken, process.env.SECRET_KEY);
+        // console.log("decoded is "+decode);
+        const user_id = decode.id;
+        // Find user by ID, returning a single document
+        const user = await User.findById(user_id);
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        const new_status = {
+            pCode: pcode,
+            submissionTime: subTime, // convert to Date if needed
+            result: subResult
+        };
+        const existing_accuracy = user.accuracy;
+        let new_correct = existing_accuracy.correct;
+        if(subResult === "true"){
+            new_correct +=1;
+        }
+        const new_accuracy = {
+            total:existing_accuracy.total+1,
+            correct: new_correct
+        };
+        // Add the new status object to the array
+        user.status.push(new_status);
+        await user.save();
+        res.send("Status updated successfully");
+    } catch (err) {
+        console.log("Error: " + err);
+        return res.status(401).json({ message: "Token not valid" });
+    }
+};
+
+const sendSubmissions = async(req,res) => {
+    const { usertoken} = req.body;
+    try {
+        const decode = jwt.verify(usertoken, process.env.SECRET_KEY);
+        // console.log("decoded is "+decode);
+        const user_id = decode.id;
+        // Find user by ID, returning a single document
+        const user = await User.findById(user_id);
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        const ans = user.status;
+        res.json({data: ans});
+    }
+    catch(err){
+        console.log("Error sending submissions : "+err);
+        res.json({message: "Error sending submission data"});
+    }
+} 
+
 module.exports = {
     handleUserLogin,
-    createNewUser,changeRole,
+    createNewUser,changeRole,updateStatus,sendSubmissions,
 };

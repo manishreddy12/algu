@@ -1,6 +1,6 @@
 const express = require('express');
 
-const {handleUserLogin,createNewUser,changeRole} = require("../controllers/c1");
+const {handleUserLogin,createNewUser,changeRole,updateStatus,sendSubmissions} = require("../controllers/c1");
 const {createProblem,readProblem,allProblems,addManyTestcases, deleteProblem, deleteAllSolutions} = require("../controllers/c2");
 const verifyToken = require("../middlewares/authMiddlewares")
 const authoriseRoles = require("../middlewares/authRoles");
@@ -15,6 +15,8 @@ router.post("/addtestcases", verifyToken, authoriseRoles("manager","admin"),addM
 router.post("/deleteproblem", verifyToken, authoriseRoles("manager","admin"), deleteProblem);
 router.post("/deleteSolutions",verifyToken, authoriseRoles("manager","admin"),deleteAllSolutions)
 router.post("/changeroles",verifyToken, authoriseRoles("manager","admin"),changeRole),
+router.post("/updatestatus",updateStatus);
+router.post("/submissions",sendSubmissions);
 router.get("/readProblem/:pcode",verifyToken, authoriseRoles("user","manager","admin"), readProblem);
 router.get("/problems", allProblems);
 
