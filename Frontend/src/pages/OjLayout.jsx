@@ -22,7 +22,7 @@ const OjLayout = () => {
   const [aiReview, setAireview] = useState('');
   const [language, setLanguage] = useState('cpp');
   const [dateTime, setDateTime] = useState('');
-  const [statusRes, setStatusres] = useState('false');
+  const [statusRes, setStatusres] = useState('');
 
   const getLanguageExtension = (language) => {
     switch (language) {
@@ -103,15 +103,23 @@ const OjLayout = () => {
         });
       // console.log("Requested to run code" + code + language);
       // setOutput(responseRun.data);
+      console.log("response is " + responseRun.data.success + responseRun.data.output);
       setStatusres(responseRun.data.success);
-      // console.log("response is " + responseRun.data.success + responseRun.data.output);
+      console.log("status res is " + statusRes);
+
       setOutput(responseRun.data.output);
-      updateStatus();
+      // updateStatus();
     }
     catch (err) {
       console.log("Error" + err);
     }
   };
+
+  useEffect(() => {
+    if (statusRes !== null) {  // or another appropriate condition to avoid running on mount
+      updateStatus();
+    }
+  }, [statusRes]);
 
   useEffect(() => {
     const now = new Date();
