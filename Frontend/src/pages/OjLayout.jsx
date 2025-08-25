@@ -102,7 +102,8 @@ const OjLayout = () => {
           }
         });
       // console.log("Requested to run code" + code + language);
-      setOutput(responseRun.data);
+      // setOutput(responseRun.data);
+      setStatusres(responseRun.data.success);
       // console.log("response is " + responseRun.data.success + responseRun.data.output);
       setOutput(responseRun.data.output);
       updateStatus();

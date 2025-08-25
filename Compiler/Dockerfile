@@ -1,6 +1,6 @@
 FROM node:24-alpine
 WORKDIR /app
-RUN apk update && apk add --no-cache g++ python3 && ln -sf python3 /usr/bin/python
+RUN apk update && apk add --no-cache g++ gcc python3 && ln -sf python3 /usr/bin/python
 COPY . .
 RUN npm install
 EXPOSE 4002
