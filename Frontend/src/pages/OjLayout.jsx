@@ -2,8 +2,8 @@ import { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import CodeMirror from '@uiw/react-codemirror';
-
-import { javascript } from '@codemirror/lang-javascript';
+import ReactMarkdown from 'react-markdown';
+// import { javascript } from '@codemirror/lang-javascript';
 import { cpp } from '@codemirror/lang-cpp';
 import { python } from '@codemirror/lang-python';
 
@@ -30,9 +30,10 @@ const OjLayout = () => {
         return cpp();
       case 'py':
         return python();
-      case 'js':
+      case 'c':
+        return cpp();
       default:
-        return javascript();
+        return cpp();
     }
   };
 
@@ -111,7 +112,7 @@ const OjLayout = () => {
     }
   };
 
- useEffect(() => {
+  useEffect(() => {
     const now = new Date();
     const timeStr = now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
     const dateStr = now.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
@@ -127,7 +128,7 @@ const OjLayout = () => {
     try {
       const token = localStorage.getItem('token');
       const new_res = statusRes;
-      console.log("update statis : "+dateTime+new_res);
+      console.log("update statis : " + dateTime + new_res);
       const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/updatestatus`, {
         "usertoken": token,
         "pcode": pcode,
@@ -135,8 +136,8 @@ const OjLayout = () => {
         "subResult": new_res
       });
     }
-    catch(err){
-      console.log("error while updating status"+err);
+    catch (err) {
+      console.log("error while updating status" + err);
     }
   };
 
@@ -248,7 +249,7 @@ const OjLayout = () => {
                 >
                   <option value="cpp">C++</option>
                   <option value="py">Python</option>
-                  <option value="js">JavaScript</option>
+                  <option value="c">C</option>
                 </select>
 
                 <button
@@ -265,7 +266,7 @@ const OjLayout = () => {
                 </button>
               </div>
 
-              
+
               <div className="flex-1 overflow-auto rounded-md border min-h-0">
                 <CodeMirror
                   value={code}
@@ -332,12 +333,20 @@ const OjLayout = () => {
                 </div>
               </div>
 
-              <div className="space-y-2">
+              {/* <div className="space-y-2">
                 <label className="text-gray-600 font-medium">AI Review</label>
                 <div className="w-full min-h-[100px] max-h-48 overflow-auto bg-white border border-gray-300 rounded-lg p-3 whitespace-pre-wrap">
                   {aiReview ? aiReview : "Run your code to see the verdict"}
                 </div>
+              </div> */}
+
+              <div className="space-y-2">
+                <h3 className="text-gray-600 font-medium">AI Review</h3>
+                <div className="w-full min-h-[100px] max-h-48 overflow-auto bg-white border border-gray-300 rounded-lg p-3 whitespace-pre-wrap">
+                  {aiReview ? <ReactMarkdown>{aiReview}</ReactMarkdown> : "Run your code to see the verdict"}
+                </div>
               </div>
+
             </div>
 
           )}

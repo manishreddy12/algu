@@ -9,7 +9,7 @@ if (!fs.existsSync(outputPath)) {
 }
 
 
-const executecpp = async (filePath,inputFilePath) => {
+const executec = async (filePath,inputFilePath) => {
     const jobId = path.basename(filePath).split('.')[0];
     const outputFilename = `${jobId}.exe`;
     const outPath = path.join(outputPath, outputFilename);
@@ -32,4 +32,4 @@ const executecpp = async (filePath,inputFilePath) => {
     });
 };
 
-module.exports = { executecpp };
+module.exports = { executec };

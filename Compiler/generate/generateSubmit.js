@@ -3,6 +3,7 @@ const { generateInputFIle } = require('./generateInputFile');
 const path = require('path');
 const { v4: uuid } = require('uuid');
 const { executecpp } = require('../exec/execteCpp');
+const { executec } = require('../exec/executeC');
 const { executePy } = require('../exec/executePy');
 const Problems = require('../models/Problems');
 const Testcases = require('../models/Testcases');
@@ -32,9 +33,10 @@ const generateSubmit = async (language, code, pcode) => {
             let output = '';
             if (language === 'cpp') output = await executecpp(filePath, inputFilePath);
             else if (language === 'py') output = await executePy(filePath, inputFilePath);
+            else if(language === 'c') output = await executec(filePath,inputFilePath);
             console.log("Output is:", output);
             console.log("expected Output is:", testcase[i].expectedOutput);
-            if (!(output === testcase[i].expectedOutput)) {
+            if (!(output.trim() === testcase[i].expectedOutput.trim())) {
                 console.log("Incorrect ouput");
                 return {
                     success: false, problemId:pId,output: `testcase ${i} failed`

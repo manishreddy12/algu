@@ -1,7 +1,10 @@
 import React from 'react';
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import codeview from '../assets/codeview.png'
 import axios from 'axios';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
+
 
 const SignUp = () => {
   const [gotoHome, setgotoHome] = useState(false);
@@ -12,6 +15,14 @@ const SignUp = () => {
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   }
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+          if (success) {
+              navigate('/login');
+          }
+      }, [success, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -57,7 +68,7 @@ const SignUp = () => {
           <div className="text-center">
             <img
               className="mx-auto h-10 w-auto"
-              src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600"
+              src={codeview}
               alt="Company Logo"
             />
             <h2 className="mt-10 text-2xl font-bold text-gray-900">

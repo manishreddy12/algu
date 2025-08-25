@@ -17,7 +17,7 @@ const solutionSchema = new mongoose.Schema({
     },
     language: {
         type: String,
-        enum: ['cpp', 'py', 'js'],
+        enum: ['cpp', 'py', 'c'],
         required: true
     },
     verdict: {
